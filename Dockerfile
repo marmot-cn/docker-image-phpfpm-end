@@ -230,7 +230,7 @@ RUN set -ex \
         ) \
         && rm -r redis \
         && pecl install mongodb-1.2.10 \
-        && docker-php-ext-enable memcached redis mongodb \
+        && docker-php-ext-enable memcached redis mongodb 
 
 COPY marmot.so /usr/local/lib/php/extensions/no-debug-zts-20151012/
 COPY confd composer /usr/local/bin/
