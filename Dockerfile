@@ -257,7 +257,7 @@ RUN echo "memcached.default_consistent_hash = on" >> /usr/local/etc/php/conf.d/d
          echo 'log_errors = on'; \
          echo 'expose_php = off'; \
     } | tee /usr/local/etc/php/conf.d/core.ini \
-    && sed -e '/pm.max_children/s/5/100/' \
+    && sed -i -e '/pm.max_children/s/5/100/' \
            -e '/pm.start_servers/s/2/40/' \
            -e '/pm.min_spare_servers/s/1/20/' \
            -e '/pm.max_spare_servers/s/3/60/' \
