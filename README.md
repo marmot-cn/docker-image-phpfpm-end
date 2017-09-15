@@ -26,3 +26,5 @@ enable_dl?
 ## apt
 
 安装: `libmemcached-dev` `zlib1g-dev`
+
+memcached 需要指定 `--with-zlib-dir=/usr`

@@ -135,6 +135,7 @@ RUN set -xe \
 		--with-libedit \
 		--with-openssl \
 		--with-zlib \
+                --with-zlib-dir=/usr \
                 --disable-session \
                 --enable-zip \
                 --with-pdo-mysql=mysqlnd \
