@@ -263,7 +263,7 @@ RUN echo "memcached.default_consistent_hash = on" >> /usr/local/etc/php/conf.d/d
            -e '/pm.max_spare_servers/s/3/60/' \
            -e 's/;slowlog = log\/$pool.log.slow/slowlog = \/proc\/self\/fd\/2/1' \
            -e 's/;request_slowlog_timeout = 0/request_slowlog_timeout = 5s/1' \
-           /usr/local/etc/php-fpm.d/www.conf \
+           /usr/local/etc/php-fpm.d/www.conf 
 
 EXPOSE 9000
 CMD ["php-fpm"]
