@@ -249,7 +249,6 @@ RUN echo "memcached.default_consistent_hash = on" >> /usr/local/etc/php/conf.d/d
          echo 'post_max_size = 5M'; \
          echo "date.timezone = 'PRC'"; \
          echo "memory_limit = '256M'"; \
-         echo 'open_basedir = /var/www/html:/tmp:/usr/local/bin'; \
          echo 'upload_tmp_dir = /var/www/html/cache/tmp'; \
          echo 'file_uploads = off'; \
          echo 'display_errors = off'; \
@@ -264,9 +263,6 @@ RUN echo "memcached.default_consistent_hash = on" >> /usr/local/etc/php/conf.d/d
            -e 's/;slowlog = log\/$pool.log.slow/slowlog = \/proc\/self\/fd\/2/1' \
            -e 's/;request_slowlog_timeout = 0/request_slowlog_timeout = 5s/1' \
            /usr/local/etc/php-fpm.d/www.conf 
-
-ENV COMPOSER_CACHE_DIR /var/www/html/cache/composer
-ENV COMPOSER_HOME /var/www/html/
 
 EXPOSE 9000
 CMD ["php-fpm"]
