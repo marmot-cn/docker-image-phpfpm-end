@@ -135,6 +135,7 @@ RUN set -xe \
 		--with-zlib \
                 --disable-session \
                 --enable-zip \
+                --enable-bcmath \
                 --with-pdo-mysql=mysqlnd \
                 --enable-pcntl \
                 --enable-sysvmsg \

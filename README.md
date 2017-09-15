@@ -26,6 +26,11 @@ enable_dl?
 * `--enable-sysvmsg`
 * `--enable-sysvsem`
 * `--enable-sysvshm`
+* `bcmath` rabbitmq 需要
+
+## ini
+
+* `allow_url_fopen` 开启, composer 需要
 
 ## apt
 
