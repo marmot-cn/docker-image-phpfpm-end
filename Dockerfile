@@ -26,7 +26,6 @@ RUN apt-get update && apt-get install -y \
 		libsqlite3-0 \
 		libxml2 \
 		xz-utils \
-                libssl-dev \
 	--no-install-recommends && rm -r /var/lib/apt/lists/*
 
 ENV PHP_INI_DIR /usr/local/etc/php
@@ -204,7 +203,7 @@ RUN set -ex \
 		echo 'listen = [::]:9000'; \
 	} | tee php-fpm.d/zz-docker.conf \
     # install extensions
-    && apt-get update && apt-get install -y libmemcached-dev zlib1g-dev git --no-install-recommends \
+    && apt-get update && apt-get install -y libmemcached-dev zlib1g-dev git libssl-dev --no-install-recommends \ 
         && rm -r /var/lib/apt/lists/* \
         && pecl download memcached-3.0.3 \
         && mkdir -p memcached \
