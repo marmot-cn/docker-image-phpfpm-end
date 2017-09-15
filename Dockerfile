@@ -204,7 +204,7 @@ RUN set -ex \
 		echo 'listen = [::]:9000'; \
 	} | tee php-fpm.d/zz-docker.conf \
     # install extensions
-    && apt-get update && apt-get install -y libmemcached-dev zlib1g-dev git --no-install-recommends 
+    && apt-get update && apt-get install -y libmemcached-dev zlib1g-dev git --no-install-recommends \
         && rm -r /var/lib/apt/lists/* \
         && pecl install memcached-3.0.3 \
         && pecl install redis-3.1.3 \
