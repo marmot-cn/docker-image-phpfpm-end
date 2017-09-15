@@ -26,7 +26,7 @@ enable_dl?
 * `--enable-sysvmsg`
 * `--enable-sysvsem`
 * `--enable-sysvshm`
-* `bcmath` rabbitmq 需要
+* `--enable-bcmath` rabbitmq 需要
 
 ## ini
 
