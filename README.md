@@ -27,4 +27,4 @@ enable_dl?
 
 安装: `libmemcached-dev` `zlib1g-dev`
 
-memcached 需要指定 `--with-zlib-dir=/usr`
+memcached 需要指定 `--disable-memcache-session`, 否则会出现`Cannot find php_session.h`

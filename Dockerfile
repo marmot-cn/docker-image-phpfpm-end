@@ -133,7 +133,6 @@ RUN set -xe \
 		--with-libedit \
 		--with-openssl \
 		--with-zlib \
-                --with-zlib-dir=/usr \
                 --disable-session \
                 --disable-memcache-session \
                 --enable-zip \
