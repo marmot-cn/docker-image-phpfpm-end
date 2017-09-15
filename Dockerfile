@@ -221,7 +221,7 @@ RUN set -ex \
         && pecl download redis-3.1.3 \
         && mkdir -p redis \
         && tar -xf redis-3.1.3.tgz -C redis --strip-components=1 \
-        && rm redis-3.1.3.tgz
+        && rm redis-3.1.3.tgz \
         && ( \
                 cd redis \
                 && phpize \
