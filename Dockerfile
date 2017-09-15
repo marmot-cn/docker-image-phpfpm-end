@@ -232,7 +232,7 @@ RUN set -ex \
         && pecl install mongodb-1.2.10 \
         && docker-php-ext-enable memcached redis mongodb 
 
-COPY marmot.so /usr/local/lib/php/extensions/no-debug-zts-20151012/
+COPY marmot.so /usr/local/lib/php/extensions/no-debug-non-zts-20160303/
 COPY confd composer /usr/local/bin/
 # modify ini, conf
 RUN echo "memcached.default_consistent_hash = on" >> /usr/local/etc/php/conf.d/docker-php-ext-memcached.ini \
