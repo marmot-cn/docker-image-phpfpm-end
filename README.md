@@ -2,10 +2,13 @@
 
 ---
 
+需要把框架的`index.php`移动至`public`目录下.
+创建`cache\`文件夹
 
-慢日志
 
-request_slowlog_timeout
+慢日志`www.conf`
+
+request_slowlog_timeout = 5s
 
 slowlog = log/$pool.log.slow
 
@@ -33,3 +36,8 @@ memcached 需要指定 `--disable-memcache-session`, 否则会出现`Cannot find
 redis 需要指定 `--disable-redis-session`
 
 mongodb 需要安装 `libssl-dev`
+
+
+
+
+
