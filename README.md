@@ -28,3 +28,7 @@ enable_dl?
 安装: `libmemcached-dev` `zlib1g-dev`
 
 memcached 需要指定 `--disable-memcache-session`, 否则会出现`Cannot find php_session.h`
+
+redis 需要指定 `--disable-redis-session`
+
+mongodb 需要安装 `libssl-dev`

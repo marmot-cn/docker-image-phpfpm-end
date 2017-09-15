@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y \
 		libsqlite3-0 \
 		libxml2 \
 		xz-utils \
+                libssl-dev \
 	--no-install-recommends && rm -r /var/lib/apt/lists/*
 
 ENV PHP_INI_DIR /usr/local/etc/php
@@ -134,7 +135,6 @@ RUN set -xe \
 		--with-openssl \
 		--with-zlib \
                 --disable-session \
-                --disable-memcache-session \
                 --enable-zip \
                 --with-pdo-mysql=mysqlnd \
                 --enable-pcntl \
@@ -206,8 +206,30 @@ RUN set -ex \
     # install extensions
     && apt-get update && apt-get install -y libmemcached-dev zlib1g-dev git --no-install-recommends \
         && rm -r /var/lib/apt/lists/* \
-        && pecl install memcached-3.0.3 \
-        && pecl install redis-3.1.3 \
+        && pecl download memcached-3.0.3 \
+        && mkdir -p memcached \
+        && tar -xf memcached-3.0.3.tgz  -C memcached --strip-components=1 \
+        && rm memcached-3.0.3.tgz \
+        && ( \
+                cd memcached \
+                && phpize \
+                && ./configure --disable-memcached-session \
+                && make -j$(nproc) \
+                && make install \
+        ) \
+        && rm -r memcached \
+        && pecl download redis-3.1.3 \
+        && mkdir -p redis \
+        && tar -xf redis-3.1.3.tgz -C redis --strip-components=1 \
+        && rm redis-3.1.3.tgz
+        && ( \
+                cd redis \
+                && phpize \
+                && ./configure --disable-redis-session \
+                && make -j$(nproc) \
+                && make install \
+        ) \
+        && rm -r redis \
         && pecl install mongodb-1.2.10 \
         && docker-php-ext-enable memcached redis mongodb
 
