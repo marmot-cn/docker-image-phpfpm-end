@@ -26,6 +26,8 @@ RUN apt-get update && apt-get install -y \
 		libsqlite3-0 \
 		libxml2 \
 		xz-utils \
+                libmemcached-dev \
+                zlib1g-dev \
 	--no-install-recommends && rm -r /var/lib/apt/lists/*
 
 ENV PHP_INI_DIR /usr/local/etc/php
@@ -201,7 +203,11 @@ RUN set -ex \
 		echo; \
 		echo '[www]'; \
 		echo 'listen = [::]:9000'; \
-	} | tee php-fpm.d/zz-docker.conf
+	} | tee php-fpm.d/zz-docker.conf \
+    && pecl install memcached-3.0.3 \
+        && pecl install redis-3.1.3 \
+        && pecl install mongodb-1.2.10 \
+        && docker-php-ext-enable memcached redis mongodb
 
 EXPOSE 9000
 CMD ["php-fpm"]

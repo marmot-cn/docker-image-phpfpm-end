@@ -22,3 +22,7 @@ enable_dl?
 * `--enable-sysvmsg`
 * `--enable-sysvsem`
 * `--enable-sysvshm`
+
+## apt
+
+安装: `libmemcached-dev` `zlib1g-dev`
