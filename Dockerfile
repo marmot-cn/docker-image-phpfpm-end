@@ -252,6 +252,7 @@ RUN echo "memcached.default_consistent_hash = on" >> /usr/local/etc/php/conf.d/d
          echo 'upload_tmp_dir = /var/www/html/cache/tmp'; \
          echo 'file_uploads = off'; \
          echo 'display_errors = off'; \
+         echo 'html_errors  = off'; \
          echo 'error_reporting = E_ALL'; \
          echo 'log_errors = on'; \
          echo 'expose_php = off'; \
