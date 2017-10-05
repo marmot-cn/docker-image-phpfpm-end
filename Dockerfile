@@ -25,6 +25,7 @@ RUN set -ex \
            -e '/pm.max_spare_servers/s/3/60/' \
            -e 's/;slowlog = log\/$pool.log.slow/slowlog = \/proc\/self\/fd\/2/1' \
            -e 's/;request_slowlog_timeout = 0/request_slowlog_timeout = 5s/1' \
+           -e 's/;access.format =/access.format = %{HTTP_REQUEST_ID}e/' \
            /usr/local/etc/php-fpm.d/www.conf \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone

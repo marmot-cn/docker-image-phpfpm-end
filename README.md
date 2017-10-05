@@ -17,11 +17,46 @@
 * `expose_php = off`不返回`php版本号`
 * `html_errors = off`关闭错误引导链接
 
-##### `open_basedir` 不使用
+##### `open_basedir`不使用
 
 open_basedir开启后会影响I/O，因为每个调用的文件都需要判断是否在限制目录内.
 
 使用open_basedir可以限制程序可操作的目录和文件,提高系统安全性.但会影响I/O性能导致系统执行变慢,因此需要根据具体需求,在安全与性能上做平衡.
+
+##### 添加禁用函数
+
+[禁用函数列表](./disableFunctions.md)
+
+* 禁止修改文件权限
+	* `chmod`改变文件模式.
+* 禁止修改文件的属主或数组
+	* `chgrp`改变文件所属的组.
+	* `chown`改变文件的所有者.
+* 修改工作路径.
+	* `chroot`改变当前进程的根目录.
+* 可以执行服务端命令
+	* `passthru`
+	* `exec`
+	* `system`
+	* `shell_exec`
+* 运行时修改
+	* `dl`运行时载入一个`PHP`扩展
+	* `ini_set`可用于修改,设置 PHP 环境配置参数
+	* `ini_alert`是`ini_set()`函数的一个别名函数,功能与`ini_set()`相同
+	* `ini_restore`可用于恢复`PHP`环境配置参数到其初始值
+* 获取系统信息函数.
+	* `disk_total_space`获取总的硬盘大小
+	* `disk_free_space`获取可用硬盘大小
+	* `diskfreespace`获取可用硬盘大小
+	* `scandir`列出指定路径中的文件和目录
+	* `phpinfo`获取`php`信息
+	* `getcwd`获取当前工作目录
+	* `posix_getcwd`获取当前工作目录
+	* `dir`访问目录
+* 其他风险
+	* `highlight_file`语法高亮一个文件
+	* `show_source`别名`highlight_file()`
+
 
 ### `phpfpm`配置文件
 
@@ -31,6 +66,28 @@ open_basedir开启后会影响I/O，因为每个调用的文件都需要判断�
 * 修改`pm.max_spare_servers`从`3`到`60`.
 * 开启慢日志`slowlog`,并指向`标准错误输入`.
 * 设定慢日志的`php`执行时间标准`request_slowlog_timeout`为`5`秒.
+* 开启日志功能, 并记录从`nginx`生成的`requestId`
+
+#### 修改日志格式
+
+```shell
+access.format = [%{X-Request-ID}o]: "%R|%u|%t \"%m %r%Q%q\" |%s %f %{mili}d %{kilo}M %C%%"
+```
+
+* `%{X-Request-ID}o`: 代表输出头信息.`%{xxx}o`代表输出`header`为`xxx`的信息.
+* `%R`: 调用方的IP地址.
+* `%u`: 调用用户.
+* `%t`: 当收到请求时候的服务器时间.
+* `%m`: 请求方法
+* `%r`: 请求`URI`不包括`query`
+* `%Q`: 如果请求`query string`存在输出`?`
+* `%q`: 请求的`query string`
+* `%s`: 请求状态码
+* `%f`: 文件脚本名称
+* `%{mili}d`: 服务器响应请求的处理时间. 毫秒单位.
+* `%{kilo}M`: 峰值内存消耗. 单位是`KB`
+* `%C`: CPU消耗的请求.
+* `%%`: 百分号.
 
 #### `docker`启动项修改
 
