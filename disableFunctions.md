@@ -18,7 +18,6 @@
 * `ini_set`
 * `ini_alter`
 * `ini_restore`
-* `umask`
 * `popen`打开一个指向进程的管道,该进程由派生给定的 command 命令执行而产生.
 * `proc_open`执行一个命令，并且打开用来输入/输出的文件指针
 
@@ -565,16 +564,6 @@ var_dump(rmdir('./a'));
 ls 
 debug       index.php   phpinfo.php
 ```
-
-### `umask`
-
-#### 定义
-
-改变当前的`umask`
-
-`int umask ([ int $mask ] )`
-
-`umask()`将PHP的`umask`设定为`mask & 0777`并返回原来的`umask`. 当PHP被作为服务器模块使用时, 在每个请求结束后`umask`会被恢复. 
 
 #### 参数
 

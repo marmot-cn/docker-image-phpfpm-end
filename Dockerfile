@@ -18,7 +18,7 @@ RUN set -ex \
          echo 'error_reporting = E_ALL'; \
          echo 'log_errors = on'; \
          echo 'expose_php = off'; \
-         echo 'disable_functions=chmod,umask, \
+         echo 'disable_functions=chmod, \
                                  chgrp,chown, \
                                  chroot, \
                                  passthru,exec,system,shell_exec,popen,proc_open, \
