@@ -21,7 +21,6 @@
 * `copy`
 * `rename`
 * `unlink`
-* `mkdir`
 * `rmdir`
 * `umask`
 * `popen`打开一个指向进程的管道,该进程由派生给定的 command 命令执行而产生.
@@ -523,22 +522,6 @@ var_dump(unlink('./c'));
 ls
 debug       index.php   phpinfo.php
 ```
-
-### `mkdir`
-
-#### 定义
-
-新建目录.
-
-`bool mkdir ( string $pathname [, int $mode = 0777 [, bool $recursive = false [, resource $context ]]] )`
-
-尝试新建一个由 pathname 指定的目录.
-
-#### 参数
-
-* `pathname`: 目录的路径.
-* `mode`: 默认的`mode`是`0777`, 意味着最大可能的访问权.
-* `recursive`: 递归创建文件夹.
 
 #### 示例
 

@@ -52,12 +52,10 @@ open_basedir开启后会影响I/O，因为每个调用的文件都需要判断�
 	* `disk_free_space`获取可用硬盘大小
 	* `diskfreespace`获取可用硬盘大小
 	* `phpinfo`获取`php`信息
-	* `posix_getcwd`获取当前工作目录
 * 操作文件
 	* `copy`拷贝文件
 	* `rename`重命名一个文件或目录
 	* `unlink`删除文件
-	* `mkdir`创建目录
 	* `rmdir`删除目录
 
 
