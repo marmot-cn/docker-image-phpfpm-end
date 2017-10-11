@@ -13,8 +13,6 @@
 * `chown`
 * `shell_exec`
 * `phpinfo`
-* `posix_getcwd`
-* `getcwd`
 * `chmod`
 * `dl`
 * `ini_set`

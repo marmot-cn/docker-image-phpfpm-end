@@ -52,7 +52,6 @@ open_basedir开启后会影响I/O，因为每个调用的文件都需要判断�
 	* `disk_free_space`获取可用硬盘大小
 	* `diskfreespace`获取可用硬盘大小
 	* `phpinfo`获取`php`信息
-	* `getcwd`获取当前工作目录
 	* `posix_getcwd`获取当前工作目录
 * 操作文件
 	* `copy`拷贝文件
