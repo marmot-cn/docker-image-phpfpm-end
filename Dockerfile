@@ -24,7 +24,6 @@ RUN set -ex \
                                  passthru,exec,system,shell_exec,popen,proc_open, \
                                  dl,ini_set,ini_alert,ini_restore, \
                                  disk_total_space,disk_free_space,diskfreespace,phpinfo, \
-                                 copy,rename,unlink,mkdir,rmdir\
                                  '; \
     } | tee /usr/local/etc/php/conf.d/core.ini \
     && sed -i -e '/pm.max_children/s/5/100/' \
