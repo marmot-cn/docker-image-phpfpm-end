@@ -9,47 +9,27 @@
 * `exec`
 * `system`
 * `chroot`
-* `scandir`
 * `chgrp`
 * `chown`
 * `shell_exec`
 * `phpinfo`
 * `posix_getcwd`
 * `getcwd`
-* `dir`
 * `chmod`
+* `dl`
+* `ini_set`
+* `ini_alter`
+* `ini_restore`
+* `copy`
+* `rename`
+* `unlink`
+* `mkdir`
+* `rmdir`
+* `umask`
+* `popen`打开一个指向进程的管道,该进程由派生给定的 command 命令执行而产生.
+* `proc_open`执行一个命令，并且打开用来输入/输出的文件指针
 
 ---
-
-* `opendir`打开目录句柄
-* `readdir`从目录句柄中读取条目
-* `scandir` 需要用
-
-* `fopen`打开文件或者 URL
-* `unlink`删除文件
-* `copy`拷贝文件
-* `mkdir`创建目录
-* `rmdir`删除目录
-* `rename`重命名一个文件或目录
-* `file`把整个文件读入一个数组中
-* `file_get_contents`将整个文件读入一个字符串
-* `fputs` `fwrite`的别名
-* `fwrite`写入文件
-
-* `popen`打开一个指向进程的管道,该进程由派生给定的 command 命令执行而产生.
-* `parse_ini_file`解析一个配置文件(不需要禁止,貌似有用)
-* `highlight_file`语法高亮一个文件(应当注意在使用 highlight_file() 时，确认没有在不经意间泄漏敏感信息，类似密码或者其他任何具有潜在安全风险的信息)
-* `show_source`别名`highlight_file()`
-* `proc_open`执行一个命令，并且打开用来输入/输出的文件指针
-* `ini_set`可用于修改、设置 PHP 环境配置参数 
-* `ini_alter`是`ini_set()`函数的一个别名函数,功能与`ini_set()`相同
-* `ini_restore`可用于恢复`PHP`环境配置参数到其初始值
-
-* `symlink` 创建符号链接
-* `passthru`执行外部程序并且显示原始输出
-* `escapeshellcmd`对字符串中可能会欺骗 shell 命令执行任意命令的字符进行转义(不需要禁止)
-* `dl`运行时载入一个 PHP 扩展
-* `popen`打开一个指向进程的管道，该进程由派生给定的 command 命令执行而产生
 
 ## 函数
 
@@ -204,59 +184,6 @@ $output 变量也会保存输出的结果
 
 我编译镜像提示该函数未定义.
 
-### `scandir`
-
-#### 定义
-
-列出指定路径中的文件和目录.
-
-`array scandir ( string $directory [, int $sorting_order [, resource $context ]] )`
-
-#### 参数
-
-* `directory`: 要被浏览的目录.
-* `sorting_order`: 默认的排序顺序是按字母圣墟排列. 如果使用了可选参数`sorting_order`(设为 1), 则排序顺序是按字母降序排列.
-* `context`: 规定目录句柄的环境.`context`是可修改目录流的行为的一套选项.**?我也不清楚**
-
-#### 示例
-
-```php
-var_dump(scandir('./'));
-
-运行, 浏览器输出
-array(45) {
-  [0]=>
-  string(1) "."
-  [1]=>
-  string(2) ".."
-  [2]=>
-  string(9) ".DS_Store"
-  [3]=>
-  string(4) ".git"
-  [4]=>
-  string(10) ".gitignore"
-  [5]=>
-  string(13) ".test.php.swp"
-  [6]=>
-  string(11) "Application"
-  [7]=>
-  string(3) "Cli"
-  [8]=>
-  string(8) "Core.php"
-  [9]=>
-  string(14) "Dockerfile.dev"
-  [10]=>
-  string(4) "Docs"
-  [11]=>
-  string(12) "EventHandler"
-  [12]=>
-  string(11) "Jenkinsfile"
-  [13]=>
-  string(9) "README.md"
-  [14]=>
- ...
-```
-
 ### `chgrp`
 
 #### 定义
@@ -409,42 +336,311 @@ string(13) "/var/www/html"
 
 成功时返回`TRUE`, 或者在失败时返回`FALSE`. 
 
-### `dir`
+### `dl`
 
 #### 定义
 
-`Directory dir ( string $directory [, resource $context ] )`
+`bool dl ( string $library )`
 
-以面向对象的方式访问目录. 打开`directory`参数指定的目录
-
-成功的话, 返回一个`Directory`类实例.参数错误的情况下返回`NULL`，其它错误情况返回`FALSE`. 
+在运行时加载`php`扩展
 
 #### 参数
 
-* `directory` 被打开的目录.
-* `context` 上下文.
+* `$library`: 扩展的文件名, 根据不同的平台名称后缀会不同
+	* `windows`: `*.dll`
+	* `unix`: `*.so`
 
 #### 示例
 
 ```php
-$d = dir("./");
-echo "Handle: " . $d->handle . "<br />";
-echo "Path: " . $d->path . "<br />";
-while (false !== ($entry = $d->read())) {
-	echo $entry."<br />";
+// Example loading an extension based on OS
+if (!extension_loaded('sqlite')) {
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        dl('php_sqlite.dll');
+    } else {
+        dl('sqlite.so');
+    }
 }
-$d->close();
 
-返回当前目录下的所有文件
-Handle: Resource id #3
-Path: ./
-.
-..
-debug
-index.php
-phpinfo.php
-test.a
+// Or using PHP_SHLIB_SUFFIX constant
+if (!extension_loaded('sqlite')) {
+    $prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';
+    dl($prefix . 'sqlite.' . PHP_SHLIB_SUFFIX);
+}
 ```
+
+### `passthru`
+
+#### 定义
+
+`void passthru ( string $command [, int &$return_var ] )`
+
+执行外部程序并且显示原始输出.
+
+`passthru()`函数,也是用来执行外部命令的. 当所执行的 Unix 命令输出二进制数据， 并且需要直接传送到浏览器的时候, 需要用此函数来替代`exec()`或`system()`函数.
+
+#### 参数
+
+* `command`: 要执行的命令
+* `return_var`: 如果提供`return_var`参数, Unix命令的返回状态会被记录到此参数.
+
+#### 示例
+
+```php
+<?php
+var_dump(passthru('ls', $err));
+
+执行输出:
+debug index.php phpinfo.php test.a NULL 
+```
+
+### `ini_set`
+
+#### 定义
+
+为一个配置选项设置值.
+
+`string ini_set ( string $varname , string $newvalue )`
+
+设置指定配置选项的值. 这个选项会在脚本运行时保持新的值, 并在脚本结束时恢复.
+
+#### 参数
+
+* `varname`: 选项
+* `newvalue`: 选项新的值
+
+#### 示例
+
+```php
+<?php
+ini_set('display_errors', '1');
+```
+
+### `ini_alter`
+
+#### 定义
+
+`ini_set`函数的别名
+
+### `ini_restore`
+
+#### 定义
+
+恢复配置选项的值.
+
+`void ini_restore ( string $varname )`
+
+恢复指定的配置选项到它的原始值.
+
+#### 参数
+
+* `varname`: 配置选项名称
+
+### `copy`
+
+#### 定义
+
+拷贝文件.
+
+`bool copy ( string $source , string $dest [, resource $context ] )`
+
+将文件从`source`拷贝到`dest`.
+
+#### 参数
+
+* `source`: 源文件路径.
+* `dest`: 目标路径.
+
+#### 示例
+
+```php
+原来的文件:
+ls
+debug       index.php   phpinfo.php
+
+<?php
+var_dump(copy('./index.php', './index-2.php'));
+
+浏览器访问页面, 返回 true, 查看并生成新的文件 index-2.php
+
+ls
+debug       index-2.php index.php   phpinfo.php
+```
+### `rename`
+
+#### 定义
+
+重命名一个文件或目录.
+
+`bool rename ( string $oldname , string $newname [, resource $context ] )`
+
+尝试把`oldname`重命名为`newname`.
+
+#### 参数
+
+* `oldname` 旧的文件名.
+* `newname` 新的文件名.
+
+#### 示例
+
+```php
+放文件可见文件名 a
+ls
+a           debug       index.php   phpinfo.php
+
+<?php
+var_dump(rename('./a', './b'));
+
+浏览器访问页面, 返回 true, 可见 a 已经改为 b
+
+ls
+b           debug       index.php   phpinfo.php
+```
+
+### `unlink`
+
+#### 定义
+
+删除文件
+
+`bool unlink ( string $filename [, resource $context ] )`
+
+删除`filename`. 和`Unix C`的`unlink()`函数相似. 发生错误时会产生一个`E_WARNING`级别的错误.
+
+#### 参数
+
+* `filename`: 文件的路径
+
+#### 示例
+
+```php
+原本有一个名为 c 的文件
+ls
+c           debug       index.php   phpinfo.php
+
+<?php
+var_dump(unlink('./c'));
+
+浏览器访问, 返回true, 在查看 c 已经被删除
+ls
+debug       index.php   phpinfo.php
+```
+
+### `mkdir`
+
+#### 定义
+
+新建目录.
+
+`bool mkdir ( string $pathname [, int $mode = 0777 [, bool $recursive = false [, resource $context ]]] )`
+
+尝试新建一个由 pathname 指定的目录.
+
+#### 参数
+
+* `pathname`: 目录的路径.
+* `mode`: 默认的`mode`是`0777`, 意味着最大可能的访问权.
+* `recursive`: 递归创建文件夹.
+
+#### 示例
+
+```php
+ls
+debug       index.php   phpinfo.php
+
+创建文件夹
+<?php
+var_dump(mkdir('./a/b',0777, true));
+
+浏览器访问, 返回true, 再次查看, 文件夹 a/b 都创建了
+ls
+a           debug       index.php   phpinfo.php
+ls a
+b
+```
+
+### `rmdir `
+
+#### 定义
+
+删除目录.
+
+`bool rmdir ( string $dirname [, resource $context ] )`
+
+尝试删除`dirname`所指定的目录. 
+
+#### 参数
+
+* `dirname`: 目录的路径
+
+#### 示例
+
+```php
+创建文件夹 a
+ls
+a           debug       index.php   phpinfo.php
+
+<?php
+var_dump(rmdir('./a'));
+
+浏览器访问, 返回true, 再次查看, a 文件夹不存在
+
+ls 
+debug       index.php   phpinfo.php
+```
+
+### `umask`
+
+#### 定义
+
+改变当前的`umask`
+
+`int umask ([ int $mask ] )`
+
+`umask()`将PHP的`umask`设定为`mask & 0777`并返回原来的`umask`. 当PHP被作为服务器模块使用时, 在每个请求结束后`umask`会被恢复. 
+
+#### 参数
+
+* `mask`新的`umask`值
+
+### `popen`
+
+#### 定义
+
+打开进程文件指针.
+
+`resource popen ( string $command , string $mode )`
+
+打开一个指向进程的管道, 该进程由派生给定的`command`命令执行而产生.
+
+#### 参数
+
+* `command`: 命令
+* `mode`: 模式
+
+#### 示例
+
+```php
+<?php
+$handle = popen('ls', 'r');
+echo "'$handle'; " . gettype($handle) . "\n";
+$read = fread($handle, 2096);
+echo $read;
+pclose($handle);
+
+浏览器访问获取到 命令执行结果:
+'Resource id #2'; resource debug index.php phpinfo.php 
+```
+
+### `proc_open`
+
+#### 定义
+
+执行一个命令, 并且打开用来输入/输出的文件指针.
+
+`resource proc_open ( string $cmd , array $descriptorspec , array &$pipes [, string $cwd [, array $env [, array $other_options ]]] )`
+
+类似`popen()`函数, 但是`proc_open()`提供了更加强大的控制程序执行的能力.
 
 ### `xxx`
 

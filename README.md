@@ -29,16 +29,19 @@ open_basedir开启后会影响I/O，因为每个调用的文件都需要判断�
 
 * 禁止修改文件权限
 	* `chmod`改变文件模式.
+	* `umask`改变当前的`umask`
 * 禁止修改文件的属主或数组
 	* `chgrp`改变文件所属的组.
 	* `chown`改变文件的所有者.
 * 修改工作路径.
 	* `chroot`改变当前进程的根目录.
 * 可以执行服务端命令
-	* `passthru`
+	* `passthru`执行外部程序并且显示原始输出
 	* `exec`
 	* `system`
 	* `shell_exec`
+	* `popen`
+	* `proc_open`
 * 运行时修改
 	* `dl`运行时载入一个`PHP`扩展
 	* `ini_set`可用于修改,设置 PHP 环境配置参数
@@ -48,14 +51,15 @@ open_basedir开启后会影响I/O，因为每个调用的文件都需要判断�
 	* `disk_total_space`获取总的硬盘大小
 	* `disk_free_space`获取可用硬盘大小
 	* `diskfreespace`获取可用硬盘大小
-	* `scandir`列出指定路径中的文件和目录
 	* `phpinfo`获取`php`信息
 	* `getcwd`获取当前工作目录
 	* `posix_getcwd`获取当前工作目录
-	* `dir`访问目录
-* 其他风险
-	* `highlight_file`语法高亮一个文件
-	* `show_source`别名`highlight_file()`
+* 操作文件
+	* `copy`拷贝文件
+	* `rename`重命名一个文件或目录
+	* `unlink`删除文件
+	* `mkdir`创建目录
+	* `rmdir`删除目录
 
 
 ### `phpfpm`配置文件
@@ -71,10 +75,10 @@ open_basedir开启后会影响I/O，因为每个调用的文件都需要判断�
 #### 修改日志格式
 
 ```shell
-access.format = [%{X-Request-ID}o]: "%R|%u|%t \"%m %r%Q%q\" |%s %f %{mili}d %{kilo}M %C%%"
+access.format = [%{HTTP_REQUEST_ID}e]: "%R|%u|%t \"%m %r%Q%q\" |%s %f %{mili}d %{kilo}M %C%%"
 ```
 
-* `%{X-Request-ID}o`: 代表输出头信息.`%{xxx}o`代表输出`header`为`xxx`的信息.
+* `%{HTTP_REQUEST_ID}e` 代表使用环境变量`HTTP_REQUEST_ID`
 * `%R`: 调用方的IP地址.
 * `%u`: 调用用户.
 * `%t`: 当收到请求时候的服务器时间.
@@ -89,9 +93,18 @@ access.format = [%{X-Request-ID}o]: "%R|%u|%t \"%m %r%Q%q\" |%s %f %{mili}d %{ki
 * `%C`: CPU消耗的请求.
 * `%%`: 百分号.
 
+* `%{xxx}o`: 代表输出头信息.`%{xxx}o`代表输出`header`为`xxx`的信息.
+
 #### `docker`启动项修改
 
 因为开启了慢日志,`docker`需要添加`--cap-add=SYS_PTRACE`权限.
+
+如果使用`dokcer 1.10.*`还需要额外添加
+
+```
+security_opt: 
+- seccomp:unconfined
+```
 
 ### 其他配置项修改
 
