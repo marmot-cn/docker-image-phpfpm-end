@@ -26,13 +26,14 @@ RUN set -ex \
                                  disk_total_space,disk_free_space,diskfreespace,phpinfo, \
                                  '; \
     } | tee /usr/local/etc/php/conf.d/core.ini \
+    && jsonlog='{"request_id":"%{REQUEST_ID}e","remote_ip":"%R","server_time":"%t","request_method":"%m","request_uri":"%r%Q%q","status":"%s","script_filename":"%f","server_request_millsecond":"%{mili}d","peak_memory_kb":"%{kilo}M","total_request_cpu":"%C%%"}' \
     && sed -i -e '/pm.max_children/s/5/100/' \
            -e '/pm.start_servers/s/2/40/' \
            -e '/pm.min_spare_servers/s/1/20/' \
            -e '/pm.max_spare_servers/s/3/60/' \
            -e 's/;slowlog = log\/$pool.log.slow/slowlog = \/proc\/self\/fd\/2/1' \
            -e 's/;request_slowlog_timeout = 0/request_slowlog_timeout = 5s/1' \
-           -e 's/;access.format =/access.format = %{REQUEST_ID}e/' \
+           -e "s/^;access.format = .*$/access.format = '${jsonlog}'/" \
            /usr/local/etc/php-fpm.d/www.conf \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone
