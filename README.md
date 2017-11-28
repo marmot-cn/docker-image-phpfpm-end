@@ -64,8 +64,10 @@ open_basedir开启后会影响I/O，因为每个调用的文件都需要判断�
 
 #### 修改日志格式
 
+使用`json`, 方便日志收集工作. 存储在`mongo`或者在`es`可以方便的搜索.
+
 ```shell
-access.format = [%{HTTP_REQUEST_ID}e]: "%R|%u|%t \"%m %r%Q%q\" |%s %f %{mili}d %{kilo}M %C%%"
+'{"request_id":"%{REQUEST_ID}e","remote_ip":"%R","server_time":"%t","request_method":"%m","request_uri":"%r%Q%q","status":"%s","script_filename":"%f","server_request_millsecond":"%{mili}d","peak_memory_kb":"%{kilo}M","total_request_cpu":"%C%%"}'
 ```
 
 * `%{HTTP_REQUEST_ID}e` 代表使用环境变量`HTTP_REQUEST_ID`
