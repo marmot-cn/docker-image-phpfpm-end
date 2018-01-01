@@ -106,7 +106,7 @@ security_opt:
 
 `enable_dl`
 
-#### cig-fcgi ?
+#### cig-fcgi
 
 * fastcgi.logging
 * cgi.fix_pathinfo
