@@ -43,7 +43,6 @@ open_basedir开启后会影响I/O，因为每个调用的文件都需要判断�
 	* `proc_open`
 * 运行时修改
 	* `dl`运行时载入一个`PHP`扩展
-	* `ini_set`可用于修改,设置 PHP 环境配置参数
 	* `ini_alert`是`ini_set()`函数的一个别名函数,功能与`ini_set()`相同
 	* `ini_restore`可用于恢复`PHP`环境配置参数到其初始值
 * 获取系统信息函数.
@@ -51,6 +50,10 @@ open_basedir开启后会影响I/O，因为每个调用的文件都需要判断�
 	* `disk_free_space`获取可用硬盘大小
 	* `diskfreespace`获取可用硬盘大小
 	* `phpinfo`获取`php`信息
+
+开启`ini_set`, 因为在更新`composer`包的时候需要增大内存. 不开启这里会在更新`composer`包报错.
+`composer`包的[Memory limit errors](https://getcomposer.org/doc/articles/troubleshooting.md#memory-limit-errors).
+
 
 ### `phpfpm`配置文件
 
