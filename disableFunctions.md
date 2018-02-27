@@ -15,9 +15,6 @@
 * `phpinfo`
 * `chmod`
 * `dl`
-* `ini_set`
-* `ini_alter`
-* `ini_restore`
 * `popen`打开一个指向进程的管道,该进程由派生给定的 command 命令执行而产生.
 * `proc_open`执行一个命令，并且打开用来输入/输出的文件指针
 
