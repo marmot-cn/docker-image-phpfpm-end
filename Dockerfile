@@ -22,7 +22,7 @@ RUN set -ex \
                                  chgrp,chown, \
                                  chroot, \
                                  passthru,exec,system,shell_exec,popen,proc_open, \
-                                 dl,ini_alert,ini_restore, \
+                                 dl, \
                                  disk_total_space,disk_free_space,diskfreespace,phpinfo, \
                                  '; \
     } | tee /usr/local/etc/php/conf.d/core.ini \
