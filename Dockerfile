@@ -1,6 +1,8 @@
 FROM registry.cn-hangzhou.aliyuncs.com/phpfpm/phpfpm-end-base:1.2
 
-RUN set -ex \
+RUN pecl install xdebug-2.6.1 \
+    && docker-php-ext-enable xdebug \
+    && set -ex \
     && { \
         echo 'zend_extension=opcache.so'; \
         echo 'opcache.enable=1'; \
