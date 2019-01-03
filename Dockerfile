@@ -23,7 +23,7 @@ RUN pecl install xdebug-2.6.1 \
          echo 'disable_functions=chmod, \
                                  chgrp,chown, \
                                  chroot, \
-                                 passthru,exec,system,shell_exec,popen,proc_open, \
+                                 exec,system,shell_exec,popen,proc_open, \
                                  dl, \
                                  disk_total_space,disk_free_space,diskfreespace,phpinfo, \
                                  '; \
