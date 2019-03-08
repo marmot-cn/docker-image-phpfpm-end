@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/phpfpm/phpfpm-end-base:1.2
+FROM registry.cn-hangzhou.aliyuncs.com/phpfpm/phpfpm-end-base:1.3
 
 RUN pecl install xdebug-2.6.1 \
     && docker-php-ext-enable xdebug \
