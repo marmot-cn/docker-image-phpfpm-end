@@ -13,7 +13,7 @@ RUN pecl install xdebug-2.6.1 \
         echo 'opcache.huge_code_pages=0'; \
         echo 'opcache.validate_timestamps=0'; \
         echo 'opcache.revalidate_freq=0'; \
-        echo 'opcache.save_comments=0'; \
+        echo 'opcache.save_comments=1'; \
         echo 'opcache.fast_shutdown=1'; \
     } | tee /usr/local/etc/php/conf.d/opcache.ini \
     && { \
