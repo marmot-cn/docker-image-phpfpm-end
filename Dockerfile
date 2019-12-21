@@ -7,7 +7,14 @@ RUN pecl install xdebug-2.6.1 \
         echo 'zend_extension=opcache.so'; \
         echo 'opcache.enable=1'; \
         echo 'opcache.enable_cli=1'; \
-        echo 'opcache.huge_code_pages=1'; \
+        echo 'opcache.opcache.memory_consumption=256'; \
+        echo 'opcache.interned_strings_buffer=8'; \
+        echo 'opcache.opcache.max_accelerated_files=11000'; \
+        echo 'opcache.huge_code_pages=0'; \
+        echo 'opcache.validate_timestamps=0'; \
+        echo 'opcache.revalidate_freq=0'; \
+        echo 'opcache.save_comments=0'; \
+        echo 'opcache.fast_shutdown=1'; \
     } | tee /usr/local/etc/php/conf.d/opcache.ini \
     && { \
          echo 'post_max_size = 5M'; \
