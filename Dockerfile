@@ -1,12 +1,10 @@
 FROM registry.cn-hangzhou.aliyuncs.com/phpfpm/phpfpm-end-base:1.3
 
-RUN pecl install xdebug-2.6.1 \
-    && docker-php-ext-enable xdebug \
-    && set -ex \
+RUN set -ex \
     && { \
         echo 'zend_extension=opcache.so'; \
-        echo 'opcache.enable=1'; \
-        echo 'opcache.enable_cli=1'; \
+        echo 'opcache.enable=0'; \
+        echo 'opcache.enable_cli=0'; \
         echo 'opcache.opcache.memory_consumption=256'; \
         echo 'opcache.interned_strings_buffer=8'; \
         echo 'opcache.opcache.max_accelerated_files=11000'; \
